@@ -49,3 +49,25 @@ terraform plan
 terraform apply
 terraform destroy
 ```
+
+# Preprarations step
+
+Create a GCS bucket and enable object versioning to store terraform state remotely:
+
+```bash
+PROJECT_ID=$(gcloud config get-value project)
+
+gsutil mb gs://${PROJECT_ID}-tfstate
+
+gsutil versioning set on gs://${PROJECT_ID}-tfstate
+```
+
+Grant permissions to your cloudbuild service:
+
+```bash
+CLOUDBUILD_SA="$(gcloud projects describe $PROJECT_ID \
+    --format 'value(projectNumber)')@cloudbuild.gserviceaccount.com"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member serviceAccount:$CLOUDBUILD_SA --role roles/editor
+```

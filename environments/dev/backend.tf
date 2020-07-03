@@ -1,6 +1,6 @@
 terraform {
   backend "gcs" {
-    bucket = "${var.project$var}.${var.bucket-suffix}"
+    bucket = "landscape-project-220208-ivan-tfstate"
     prefix = "env/dev"
   }
 }

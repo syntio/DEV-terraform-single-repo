@@ -1,2 +1,3 @@
 project="landscape-project-220208"
-bucket-suffix="-ivan-tfstate"
+prefix="env/dev"
+bucket_suffix="-ivan-tfstate"
