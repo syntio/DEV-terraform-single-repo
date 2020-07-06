@@ -59,7 +59,7 @@ steps:
       else
         for dir in environments/*/
           do
-          for subdir in ${dir}/*/
+          for subdir in environments/${dir}/*/
             do
               cd ${dir}/${subdir}
               env=${dir%*/}
@@ -90,7 +90,7 @@ steps:
       else
         for dir in environments/*/
           do
-          for subdir in ${dir}/*/
+          for subdir in environments/${dir}/*/
             do
               cd ${dir}/${subdir}
               env=${dir%*/}
