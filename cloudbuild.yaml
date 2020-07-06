@@ -90,7 +90,9 @@ steps:
       else
         for dir in environments/*/
           do
+          echo "******* Directory: ${dir} ********"
           for subdir in environments/${dir}/*/
+            echo "******* Subdirectory: ${subdir} ********"
             do
               cd ${dir}/${subdir}
               env=${dir%*/}
