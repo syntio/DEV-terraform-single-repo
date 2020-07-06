@@ -71,3 +71,10 @@ CLOUDBUILD_SA="$(gcloud projects describe $PROJECT_ID \
 gcloud projects add-iam-policy-binding $PROJECT_ID \
     --member serviceAccount:$CLOUDBUILD_SA --role roles/editor
 ```
+
+Connect Bitbucket repo to Cloudbuild
+
+
+Store ssh secret to GCP Secrets
+
+
