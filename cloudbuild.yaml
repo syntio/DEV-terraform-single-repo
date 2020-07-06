@@ -61,11 +61,11 @@ steps:
           do
           for subdir in environments/${dir}/*/
             do
+              echo ${subdir} | sed 's:.*/::'
               cd ${dir}/${subdir}
               env=${dir%*/}
               env=${env#*/}
-              component=${subdir%*/}
-              component=${component#*/}
+              component=${subdir} | sed 's:.*/::'
               echo ""
               echo "*************** TERRAFORM INIT ******************"
               echo "******* At environment: ${env} ********"
@@ -97,12 +97,9 @@ steps:
               cd ${subdir}
               env=${dir%*/}
               env=${env#*/}
-              component=${subdir%*/}
-              component=${component#*/}
               echo ""
               echo "*************** TERRAFORM PLAN ******************"
               echo "******* At environment: ${env} ********"
-              echo "******* At component: ${component} ********"
               echo "*************************************************"
               terraform plan || exit 1
               cd ../../
