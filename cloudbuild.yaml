@@ -43,7 +43,7 @@ steps:
   - '-c'
   - |
       echo "***************************"
-      echo "Branch name = $BRANCH_NAME"
+      echo "Branch name = $branch"
       echo "***************************"
 
 # Terraform init.
@@ -57,9 +57,24 @@ steps:
         cd environments/$BRANCH_NAME
         terraform init
       else
-        echo "***************************** SKIPPING INIT ***********************************"
-        echo "Branch '$BRANCH_NAME' does not represent an official environment."
-        echo "*******************************************************************************"
+        for dir in environments/*/
+          do
+          for subdir in dir/*/
+            do
+              cd ${dir}/${subdir}
+              env=${dir%*/}
+              env=${env#*/}
+              component=${subdir%*/}
+              component=${component#*/}
+              echo ""
+              echo "*************** TERRAFORM INIT ******************"
+              echo "******* At environment: ${env} ********"
+              echo "******* At component: ${component} ********"
+              echo "*************************************************"
+              terraform init || exit 1
+              cd ../../
+            done
+          done
       fi
 
 # Terraform plan.
@@ -73,9 +88,24 @@ steps:
         cd environments/$BRANCH_NAME
         terraform plan
       else
-        echo "***************************** SKIPPING PLAN ***********************************"
-        echo "Branch '$BRANCH_NAME' does not represent an official environment."
-        echo "*******************************************************************************"
+        for dir in environments/*/
+          do
+          for subdir in dir/*/
+            do
+              cd ${dir}/${subdir}
+              env=${dir%*/}
+              env=${env#*/}
+              component=${subdir%*/}
+              component=${component#*/}
+              echo ""
+              echo "*************** TERRAFORM PLAN ******************"
+              echo "******* At environment: ${env} ********"
+              echo "******* At component: ${component} ********"
+              echo "*************************************************"
+              terraform plan || exit 1
+              cd ../../
+            done
+          done
       fi
 
 # Terraform apply.

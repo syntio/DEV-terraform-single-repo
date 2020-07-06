@@ -2,13 +2,7 @@ variable "project" {
     type = string
     description = "GCP Project ID"
 }
-
-variable "prefix" {
+variable "component" {
     type = string
-    description = "Folder name used for backend"
-}
-
-variable "bucket_suffix" {
-    type = string
-    description = "Suffix appended to project id to get a unique storage name"
+    description = "Name of the component"
 }
