@@ -59,20 +59,22 @@ steps:
       else
         for dir in environments/*/
           do
-          for subdir in environments/${dir}/*/
+          for subdir in $dir*/
             do
-              echo ${subdir} | sed 's:.*/::'
-              cd ${dir}/${subdir}
-              env=${dir%*/}
-              env=${env#*/}
-              component=${subdir} | sed 's:.*/::'
-              echo ""
-              echo "*************** TERRAFORM INIT ******************"
-              echo "******* At environment: ${env} ********"
-              echo "******* At component: ${component} ********"
-              echo "*************************************************"
-              terraform init || exit 1
-              cd ../../
+              if [[ $subdir == *"*"* ]]; then
+              else
+                cd $subdir
+                env=${dir%*/}
+                env=${env#*/}
+                component=${subdir} | sed 's:.*/::'
+                echo ""
+                echo "*************** TERRAFORM INIT ******************"
+                echo "******* At environment: ${env} ********"
+                echo "******* At component: ${component} ********"
+                echo "*************************************************"
+                terraform init || exit 1
+                cd ../../
+              fi
             done
           done
       fi
