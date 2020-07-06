@@ -61,7 +61,7 @@ steps:
           do
           for subdir in $dir*/
             do
-              if [[ $subdir == *"/*/"* ]]; then
+              if [[ $subdir =~ "/*/"  ]]; then
                 echo "***********************************"
                 echo "Skipping folder: $subdir"
                 echo "***********************************"
@@ -96,7 +96,7 @@ steps:
               do
               for subdir in $dir*/
                 do
-                  if [[ $subdir == *"/*/"* ]]; then
+                  if [[ $subdir =~ "/*/" ]]; then
                     echo "***********************************"
                     echo "Skipping folder: $subdir"
                     echo "***********************************"
