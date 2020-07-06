@@ -57,28 +57,10 @@ steps:
         cd environments/$BRANCH_NAME
         terraform init
       else
-        for dir in environments/*/
-          do
-          for subdir in $dir*/
-            do
-              if [[ $subdir =~ "/*/"  ]]; then
-                echo "***********************************"
-                echo "Skipping folder: $subdir"
-                echo "***********************************"
-              else
-                cd $subdir
-                env=${dir%*/}
-                env=${env#*/}
-                echo ""
-                echo "*************** TERRAFORM INIT ******************"
-                echo "******* At environment: ${env} ********"
-                echo "******* At folder: $subdir ********"
-                echo "*************************************************"
-                terraform init || exit 1
-                cd ../../
-              fi
-            done
-          done
+        echo "***********************************"
+        echo "Branch $BRANCH_NAME is not a configuration branch."
+        echo "Skipping init step!"
+        echo "***********************************"
       fi
 
 # Terraform plan.
@@ -92,28 +74,10 @@ steps:
             cd environments/$BRANCH_NAME
             terraform plan
           else
-            for dir in environments/*/
-              do
-              for subdir in $dir*/
-                do
-                  if [[ $subdir =~ "/*/" ]]; then
-                    echo "***********************************"
-                    echo "Skipping folder: $subdir"
-                    echo "***********************************"
-                  else
-                    cd $subdir
-                    env=${dir%*/}
-                    env=${env#*/}
-                    echo ""
-                    echo "*************** TERRAFORM PLAN ******************"
-                    echo "******* At environment: ${env} ********"
-                    echo "******* At folder: $subdir ********"
-                    echo "*************************************************"
-                    terraform plan || exit 1
-                    cd ../../
-                  fi
-                done
-              done
+        echo "***********************************"
+        echo "Branch $BRANCH_NAME is not a configuration branch."
+        echo "Skipping plan step!"
+        echo "***********************************"
           fi
 
 # Terraform apply.
@@ -127,7 +91,8 @@ steps:
         cd environments/$BRANCH_NAME
         terraform apply -auto-approve
       else
-        echo "***************************** SKIPPING APPLYING *******************************"
-        echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
-        echo "*******************************************************************************"
+        echo "***********************************"
+        echo "Branch $BRANCH_NAME is not a configuration branch."
+        echo "Skipping apply step!"
+        echo "***********************************"
       fi
