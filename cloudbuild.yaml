@@ -88,28 +88,33 @@ steps:
   args:
   - '-c'
   - |
-      if [ -d "environments/$BRANCH_NAME/" ]; then
-        cd environments/$BRANCH_NAME
-        terraform plan
-      else
-        for dir in environments/*/
-          do
-          echo "******* Directory: ${dir} ********"
-          for subdir in environments/${dir}/*/
-            echo "******* Subdirectory: ${subdir} ********"
-            do
-              cd ${subdir}
-              env=${dir%*/}
-              env=${env#*/}
-              echo ""
-              echo "*************** TERRAFORM PLAN ******************"
-              echo "******* At environment: ${env} ********"
-              echo "*************************************************"
-              terraform plan || exit 1
-              cd ../../
-            done
-          done
-      fi
+    if [ -d "environments/$BRANCH_NAME/" ]; then
+            cd environments/$BRANCH_NAME
+            terraform plan
+          else
+            for dir in environments/*/
+              do
+              for subdir in $dir*/
+                do
+                  if [[ $subdir == *"*"* ]]; then
+                    echo "***********************************"
+                    echo "Skipping folder: $subdir"
+                    echo "***********************************"
+                  else
+                    cd $subdir
+                    env=${dir%*/}
+                    env=${env#*/}
+                    echo ""
+                    echo "*************** TERRAFORM PLAN ******************"
+                    echo "******* At environment: ${env} ********"
+                    echo "******* At folder: $subdir ********"
+                    echo "*************************************************"
+                    terraform plan || exit 1
+                    cd ../../
+                  fi
+                done
+              done
+          fi
 
 # Terraform apply.
 - id: 'tf apply'
