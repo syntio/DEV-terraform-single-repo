@@ -62,6 +62,7 @@ steps:
           for subdir in $dir*/
             do
               if [[ $subdir == *"*"* ]]; then
+                echo "Skipping folder: $subdir"
               else
                 cd $subdir
                 env=${dir%*/}
