@@ -94,7 +94,7 @@ steps:
           for subdir in environments/${dir}/*/
             echo "******* Subdirectory: ${subdir} ********"
             do
-              cd ${dir}/${subdir}
+              cd ${subdir}
               env=${dir%*/}
               env=${env#*/}
               component=${subdir%*/}
